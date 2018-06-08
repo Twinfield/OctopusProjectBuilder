@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Common.Logging;
+
 using Octopus.Client;
 using Octopus.Client.Model;
 using OctopusProjectBuilder.Model;
@@ -9,10 +12,18 @@ namespace OctopusProjectBuilder.Uploader.Converters
 {
     public static class ScopeSpecificationConverter
     {
-        public static Dictionary<VariableScopeType, IEnumerable<ElementReference>> ToModel(this ScopeSpecification resource, DeploymentProcessResource deploymentProcessResource, IOctopusRepository repository)
+	    static readonly ILog Logger = LogManager.GetLogger(typeof(ScopeSpecificationConverter));
+
+		public static Dictionary<VariableScopeType, IEnumerable<ElementReference>> ToModel(this ScopeSpecification resource, DeploymentProcessResource deploymentProcessResource, ProjectResource projectResource, IOctopusRepository repository)
         {
-            return resource.ToDictionary(kv => (VariableScopeType)kv.Key,
-                kv => kv.Value.AsParallel().Select(id => ResolveReference(kv.Key, id, repository, deploymentProcessResource)).AsParallel().ToArray().AsEnumerable());
+
+            return resource
+				.Where(kv => (VariableScopeType) kv.Key != VariableScopeType.Environment)
+				.ToDictionary(kv => (VariableScopeType)kv.Key,
+					kv => kv.Value.AsParallel()
+							.Select(id => 
+								ResolveReference(kv.Key, id, repository, deploymentProcessResource, projectResource))
+								.AsParallel().ToArray().AsEnumerable());
         }
 
         public static ScopeSpecification UpdateWith(this ScopeSpecification resource, IReadOnlyDictionary<VariableScopeType, IEnumerable<ElementReference>> model, IOctopusRepository repository, DeploymentProcessResource deploymentProcess, ProjectResource project)
@@ -44,9 +55,12 @@ namespace OctopusProjectBuilder.Uploader.Converters
             }
         }
 
-        private static ElementReference ResolveReference(ScopeField key, string id, IOctopusRepository repository, DeploymentProcessResource deploymentProcessResource)
+        private static ElementReference ResolveReference(ScopeField key, string id, IOctopusRepository repository, DeploymentProcessResource deploymentProcessResource, ProjectResource projectResource)
         {
-            switch (key)
+
+	        Logger.Trace($"Resolving reference {id}...");
+
+			switch (key)
             {
                 case ScopeField.Action:
                     return new ElementReference(GetDeploymentAction(deploymentProcessResource, a => a.Id, id, nameof(DeploymentActionResource.Id)).Name);
@@ -65,7 +79,7 @@ namespace OctopusProjectBuilder.Uploader.Converters
             }
         }
 
-        private static DeploymentActionResource GetDeploymentAction(DeploymentProcessResource deploymentProcess, Func<DeploymentActionResource, string> identifierExtractor, string identifier, string identifierType)
+		private static DeploymentActionResource GetDeploymentAction(DeploymentProcessResource deploymentProcess, Func<DeploymentActionResource, string> identifierExtractor, string identifier, string identifierType)
         {
             if (deploymentProcess == null)
                 throw new InvalidOperationException("Unable to retrieve deployment action if no deployment process is specified");
