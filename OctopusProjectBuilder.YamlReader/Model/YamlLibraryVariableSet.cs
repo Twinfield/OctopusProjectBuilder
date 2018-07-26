@@ -36,7 +36,7 @@ namespace OctopusProjectBuilder.YamlReader.Model
                 RenamedFrom = model.Identifier.RenamedFrom,
                 Description = model.Description,
                 ContentType = model.ContentType,
-                Variables = model.Variables.Select(YamlVariable.FromModel).ToArray().NullIfEmpty()
+                Variables = model.Variables.Select(YamlVariable.FromModel).OrderBy(m => m.Name).ToArray().NullIfEmpty()
             };
         }
     }
