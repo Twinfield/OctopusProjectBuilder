@@ -107,7 +107,7 @@ namespace OctopusProjectBuilder.YamlReader.Model
                 DeploymentProcess = YamlDeploymentProcess.FromModel(model.DeploymentProcess),
                 LifecycleRef = model.LifecycleRef.Name,
                 ProjectGroupRef = model.ProjectGroupRef.Name,
-                Variables = model.Variables.Select(YamlVariable.FromModel).ToArray().NullIfEmpty(),
+                Variables = model.Variables.Select(YamlVariable.FromModel).OrderBy(v => v.Name).ToArray().NullIfEmpty(),
                 IncludedLibraryVariableSetRefs = model.IncludedLibraryVariableSetRefs.Select(r => r.Name).ToArray().NullIfEmpty(),
                 VersioningStrategy = YamlVersioningStrategy.FromModel(model.VersioningStrategy),
                 Triggers = model.Triggers.Select(YamlProjectTrigger.FromModel).ToArray().NullIfEmpty(),

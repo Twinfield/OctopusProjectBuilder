@@ -55,13 +55,18 @@ The variable scope should be understood as `(role1 OR ...roleN) AND (machine1 OR
                 return null;
             return new YamlVariableScope
             {
-                ActionRefs = model.Where(kv => kv.Key == VariableScopeType.Action).SelectMany(kv => kv.Value).Select(r => r.Name).ToArray().NullIfEmpty(),
-                ChannelRefs = model.Where(kv => kv.Key == VariableScopeType.Channel).SelectMany(kv => kv.Value).Select(r => r.Name).ToArray().NullIfEmpty(),
-                EnvironmentRefs = model.Where(kv => kv.Key == VariableScopeType.Environment).SelectMany(kv => kv.Value).Select(r => r.Name).ToArray().NullIfEmpty(),
-                MachineRefs = model.Where(kv => kv.Key == VariableScopeType.Machine).SelectMany(kv => kv.Value).Select(r => r.Name).ToArray().NullIfEmpty(),
-                RoleRefs = model.Where(kv => kv.Key == VariableScopeType.Role).SelectMany(kv => kv.Value).Select(r => r.Name).ToArray().NullIfEmpty(),
-                TenantTagRefs = model.Where(kv => kv.Key == VariableScopeType.TenantTag).SelectMany(kv => kv.Value).Select(r => r.Name).ToArray().NullIfEmpty(),
+                ActionRefs = GetScopeRefs(model, VariableScopeType.Action),
+                ChannelRefs = GetScopeRefs(model, VariableScopeType.Channel),
+                EnvironmentRefs = GetScopeRefs(model, VariableScopeType.Environment),
+                MachineRefs = GetScopeRefs(model, VariableScopeType.Machine),
+                RoleRefs = GetScopeRefs(model, VariableScopeType.Role),
+                TenantTagRefs = GetScopeRefs(model, VariableScopeType.TenantTag)
             };
         }
+
+		private static string[] GetScopeRefs(IReadOnlyDictionary<VariableScopeType, IEnumerable<ElementReference>> model, VariableScopeType type)
+		{
+			return model.Where(kv => kv.Key == type).SelectMany(kv => kv.Value).Select(r => r.Name).OrderBy(v => v).ToArray().NullIfEmpty();
+		}
     }
 }
