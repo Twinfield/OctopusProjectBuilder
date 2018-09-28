@@ -16,9 +16,15 @@ namespace OctopusProjectBuilder.YamlReader.Model
         [YamlMember(Order = 3)]
         public bool Required { get; set; }
 
+		[YamlMember(Order = 4)]
+		public ControlType ControlType { get; set; }
+
+		[YamlMember(Order = 5)]
+		public string SelectOptions { get; set; }
+
         public VariablePrompt ToModel()
         {
-            return new VariablePrompt(Required, Label, Description);
+            return new VariablePrompt(Required, Label, Description, ControlType, SelectOptions);
         }
 
         public static YamlVariablePrompt FromModel(VariablePrompt model)
@@ -29,7 +35,9 @@ namespace OctopusProjectBuilder.YamlReader.Model
             {
                 Required = model.Required,
                 Description = model.Description,
-                Label = model.Label
+                Label = model.Label,
+				ControlType = model.ControlType,
+				SelectOptions = model.SelectOptions
             };
         }
     }
