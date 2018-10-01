@@ -8,59 +8,55 @@ namespace OctopusProjectBuilder.Uploader.Converters
 {
     public static class VariablePromptOptionsConverter
     {
-	    const string ControlTypeKey = "Octopus.ControlType";
-	    const string SelectOptionsKey = "Octopus.SelectOptions";
-		
-		public static VariablePrompt ToModel(this VariablePromptOptions resource)
+        const string ControlTypeKey = "Octopus.ControlType";
+        const string SelectOptionsKey = "Octopus.SelectOptions";
+
+        public static VariablePrompt ToModel(this VariablePromptOptions resource)
         {
-	        var controlType = GetControlType(resource);
-	        var selectOptions = GetSelectOptions(resource);
+            var controlType = GetControlType(resource);
+            var selectOptions = GetSelectOptions(resource);
             return new VariablePrompt(resource.Required, resource.Label, resource.Description, controlType, selectOptions);
         }
 
         public static VariablePromptOptions FromModel(this VariablePrompt model)
         {
-	        return new VariablePromptOptions
+            return new VariablePromptOptions
             {
                 Description = model.Description,
                 Label = model.Label,
                 Required = model.Required,
-				DisplaySettings = GetDisplaySettings(model)
+                DisplaySettings = GetDisplaySettings(model)
             };
         }
 
-	    static ControlType GetControlType(VariablePromptOptions resource)
-	    {
-		    if (resource.DisplaySettings.ContainsKey(ControlTypeKey) && 
-		        Enum.TryParse<ControlType>(resource.DisplaySettings[ControlTypeKey], out var type))
-					return type;
+        static ControlType GetControlType(VariablePromptOptions resource)
+        {
+            if (resource.DisplaySettings.ContainsKey(ControlTypeKey) &&
+                Enum.TryParse<ControlType>(resource.DisplaySettings[ControlTypeKey], out var type))
+                return type;
 
-		    return ControlType.None;
-	    }
+            return ControlType.None;
+        }
 
-	    static string GetSelectOptions(VariablePromptOptions resource)
-	    {
-		    if (resource.DisplaySettings.ContainsKey(SelectOptionsKey))
-			    return resource.DisplaySettings[SelectOptionsKey];
+        static string GetSelectOptions(VariablePromptOptions resource)
+        {
+            if (resource.DisplaySettings.ContainsKey(SelectOptionsKey))
+                return resource.DisplaySettings[SelectOptionsKey];
 
-		    return null;
-	    }
+            return null;
+        }
 
-	    static Dictionary<string, string> GetDisplaySettings(VariablePrompt model)
-	    {
-		    var displaySettings = new Dictionary<string, string>();
+        static Dictionary<string, string> GetDisplaySettings(VariablePrompt model)
+        {
+            var displaySettings = new Dictionary<string, string>();
 
-		    if (model.ControlType != ControlType.None)
-		    {
-			    displaySettings.Add(ControlTypeKey, model.ControlType.ToString());
-		    }
+            if (model.ControlType != ControlType.None)
+                displaySettings.Add(ControlTypeKey, model.ControlType.ToString());
 
-		    if (!string.IsNullOrEmpty(model.SelectOptions))
-		    {
-			    displaySettings.Add(SelectOptionsKey, model.SelectOptions);
-		    }
+            if (!string.IsNullOrEmpty(model.SelectOptions))
+                displaySettings.Add(SelectOptionsKey, model.SelectOptions);
 
-		    return displaySettings;
-	    }
+            return displaySettings;
+        }
     }
 }
