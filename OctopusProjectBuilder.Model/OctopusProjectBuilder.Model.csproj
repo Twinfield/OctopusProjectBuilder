@@ -44,6 +44,7 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
+    <Compile Include="ControlType.cs" />
     <Compile Include="ProjectChannel.cs" />
     <Compile Include="DeploymentAction.cs" />
     <Compile Include="DeploymentProcess.cs" />
