@@ -14,7 +14,7 @@ namespace OctopusProjectBuilder.Uploader.Converters
                 (DeploymentStep.StepCondition)resource.Condition,
                 resource.RequiresPackagesToBeAcquired,
                 (DeploymentStep.StepStartTrigger)resource.StartTrigger,
-                resource.Properties.ToModel(),
+                resource.Properties.ToModel(repository),
                 resource.Actions.Select(a => a.ToModel(repository)));
         }
 

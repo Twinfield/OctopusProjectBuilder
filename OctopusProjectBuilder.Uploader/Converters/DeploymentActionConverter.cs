@@ -13,7 +13,7 @@ namespace OctopusProjectBuilder.Uploader.Converters
             return new DeploymentAction(
                 resource.Name,
                 resource.ActionType,
-                resource.Properties.ToModel(),
+                resource.Properties.ToModel(repository),
 				resource.Environments.ToModel(repository.Environments),
 				resource.Channels.ToModel(repository.Channels));
         }
