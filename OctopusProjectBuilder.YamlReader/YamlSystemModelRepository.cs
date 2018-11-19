@@ -52,7 +52,7 @@ namespace OctopusProjectBuilder.YamlReader
 
 		private YamlOctopusModel[] LoadModels(string path)
 		{
-			Logger.Debug($"Loading: {Path.GetFileName(path)}");
+			Logger.Debug($"Loading: {Path.GetFileName(path)} <-- {Path.GetDirectoryName(path)}");
 			return ReadFile(path);
 		}
 
@@ -72,7 +72,7 @@ namespace OctopusProjectBuilder.YamlReader
 
 		private void SaveModel(YamlOctopusModel model, string path)
 		{
-			Logger.Debug($"Saving: {Path.GetFileName(path)}");
+			Logger.Debug($"Saving: {Path.GetFileName(path)} --> {Path.GetDirectoryName(path)}");
 			WriteFile(path, model);
 		}
 

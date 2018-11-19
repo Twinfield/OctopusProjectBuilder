@@ -154,6 +154,13 @@ namespace OctopusProjectBuilder.Model
 			return this;
 		}
 
+		public SystemModel RemoveGroup(ElementIdentifier identifier)
+		{
+			if (projectGroups.ContainsKey(identifier.Name))
+				projectGroups.Remove(identifier.Name);
+			return this;
+		}
+
 		public void MergeIn(SystemModel model)
 		{
 			AddMachinePolicies(model.MachinePolicies.ToArray());
