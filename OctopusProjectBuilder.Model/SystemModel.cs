@@ -77,7 +77,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddProjectGroups(params ProjectGroup[] groups)
 		{
 			foreach (ProjectGroup group in groups)
-				this.projectGroups.Add(group.Identifier.Name, group);
+				this.projectGroups.TryAdd(group.Identifier.Name, group);
 
 			return this;
 		}
@@ -85,7 +85,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddEnvironments(params Environment[] envs)
 		{
 			foreach (Environment environment in envs)
-				this.environments.Add(environment.Identifier.Name, environment);
+				this.environments.TryAdd(environment.Identifier.Name, environment);
 			
 			return this;
 		}
@@ -93,7 +93,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddProjects(params Project[] ps)
 		{
 			foreach (Project project in ps)
-				this.projects.Add(project.Identifier.Name, project);
+				this.projects.TryAdd(project.Identifier.Name, project);
 
 			return this;
 		}
@@ -101,7 +101,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddLifecycles(params Lifecycle[] lcs)
 		{
 			foreach (Lifecycle lifecycle in lcs)
-				this.lifecycles.Add(lifecycle.Identifier.Name, lifecycle);
+				this.lifecycles.TryAdd(lifecycle.Identifier.Name, lifecycle);
 
 			return this;
 		}
@@ -109,7 +109,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddLibraryVariableSets(params LibraryVariableSet[] lvs)
 		{
 			foreach (LibraryVariableSet set in lvs)
-				this.libraryVariableSets.Add(set.Identifier.Name, set);
+				this.libraryVariableSets.TryAdd(set.Identifier.Name, set);
 
 			return this;
 		}
@@ -117,7 +117,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddUserRoles(params UserRole[] roles)
 		{
 			foreach (UserRole role in roles)
-				this.userRoles.Add(role.Identifier.Name, role);
+				this.userRoles.TryAdd(role.Identifier.Name, role);
 			
 			return this;
 		}
@@ -125,7 +125,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddTeams(params Team[] userTeams)
 		{
 			foreach (Team team in userTeams)
-				this.teams.Add(team.Identifier.Name, team);
+				this.teams.TryAdd(team.Identifier.Name, team);
 
 			return this;
 		}
@@ -133,7 +133,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddMachinePolicies(params MachinePolicy[] policies)
 		{
 			foreach (MachinePolicy policy in policies)
-				this.machinePolicies.Add(policy.Identifier.Name, policy);
+				this.machinePolicies.TryAdd(policy.Identifier.Name, policy);
 
 			return this;
 		}
@@ -141,7 +141,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddTenants(params Tenant[] ts)
 		{
 			foreach (Tenant tenant in ts)
-				this.tenants.Add(tenant.Identifier.Name, tenant);
+				this.tenants.TryAdd(tenant.Identifier.Name, tenant);
 
 			return this;
 		}
@@ -149,7 +149,7 @@ namespace OctopusProjectBuilder.Model
 		public SystemModel AddTagSets(params TagSet[] tss)
 		{
 			foreach (TagSet tagSet in tss)
-				this.tagSets.Add(tagSet.Identifier.Name, tagSet);
+				this.tagSets.TryAdd(tagSet.Identifier.Name, tagSet);
 
 			return this;
 		}

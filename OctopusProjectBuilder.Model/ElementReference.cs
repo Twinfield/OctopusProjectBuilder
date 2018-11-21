@@ -13,5 +13,10 @@
         {
             return $"@{Name}";
         }
+
+	    public static ElementReference Extract(string reference)
+	    {
+		    return new ElementReference(reference.Replace("@", string.Empty));
+	    }
     }
 }
