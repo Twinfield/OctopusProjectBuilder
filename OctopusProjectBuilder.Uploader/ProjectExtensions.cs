@@ -17,6 +17,7 @@ namespace OctopusProjectBuilder.Uploader
 				.Where(a => a.ActionType == "Octopus.DeployRelease")
 				.SelectMany(a => a.Properties)
 				.Where(p => p.Key == "Octopus.Action.DeployRelease.ProjectId")
+				.Where(p => p.Value.Value.StartsWith("@"))
 				.Select(p => new ProjectReference(p.Value))
 				.ToArray();
 		}
