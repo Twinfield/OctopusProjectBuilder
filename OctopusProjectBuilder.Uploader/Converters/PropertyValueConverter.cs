@@ -26,7 +26,7 @@ namespace OctopusProjectBuilder.Uploader.Converters
 		static string ResolveProjectReference(PropertyValueResource resource, IOctopusRepository repository)
 		{
 			var collection = new ReferenceCollection(resource.Value);
-			return collection.ToModel(repository.Projects).First().ToString();
+			return collection.ToModel(repository.Projects).FirstOrDefault()?.ToString();
 		}
 
 		public static Dictionary<string, PropertyValue> ToModel(this IDictionary<string, PropertyValueResource> properties, IOctopusRepository repository)
