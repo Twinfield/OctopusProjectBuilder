@@ -51,7 +51,7 @@ namespace OctopusProjectBuilder.Uploader
 				UploadLibraryVariableSet(libraryVariableSet);
 
 			foreach (var project in model.Projects)
-				UploadProject(project);
+				UploadProject(project, model);
 
 			foreach (var tenant in model.Tenants)
 				UploadTenant(tenant);
@@ -100,7 +100,20 @@ namespace OctopusProjectBuilder.Uploader
 			}
 		}
 
-		private void UploadProject(Project project)
+		ProjectResource UploadProject(Project project, SystemModel model)
+		{
+			var references = project.FindProjectReferences();
+
+			foreach (var reference in references)
+			{
+				var p = GetProject(reference.ProjectName, model);
+				var resource = UploadProject(p, model);
+				reference.Update(resource.Id);
+			}
+			return UploadProject(project);
+		}
+
+		private ProjectResource UploadProject(Project project)
 		{
 
 			var projectResource = Upsert(_repository.Projects, LoadResource(_repository.Projects, project.Identifier).UpdateWith(project, _repository));
@@ -116,10 +129,20 @@ namespace OctopusProjectBuilder.Uploader
 				_repository.VariableSets,
 				_repository.VariableSets.Get(projectResource.VariableSetId).UpdateWith(project, _repository, deploymentProcess, projectResource),
 				projectResource.Name);
-			
+
 			UploadProjectTriggers(projectResource, project.Triggers);
+			return projectResource;
 		}
-		
+
+	
+
+		Project GetProject(string name, SystemModel model)
+		{
+			var project = model.Projects.FirstOrDefault(p => p.Identifier.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			if (project == null)
+				throw new ProjectNotFoundException(name);
+			return project;
+		}
 
 		private void UploadProjectTriggers(ProjectResource projectResource, IEnumerable<ProjectTrigger> triggers)
 		{
@@ -220,6 +243,14 @@ namespace OctopusProjectBuilder.Uploader
 			}
 			Logger.InfoFormat("Creating {0}: {1}", typeof(TResource).Name, identifier.Name);
 			return new TResource();
+		}
+	}
+
+	class ProjectNotFoundException : Exception
+	{
+		public ProjectNotFoundException(string name) : base($"Project {name} is not found in model.")
+		{
+
 		}
 	}
 }

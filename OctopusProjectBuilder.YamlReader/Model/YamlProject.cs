@@ -106,7 +106,7 @@ namespace OctopusProjectBuilder.YamlReader.Model
                 DefaultToSkipIfAlreadyInstalled = model.DefaultToSkipIfAlreadyInstalled,
                 DeploymentProcess = YamlDeploymentProcess.FromModel(model.DeploymentProcess),
                 LifecycleRef = model.LifecycleRef.Name,
-                ProjectGroupRef = model.ProjectGroupRef.Name,
+                ProjectGroupRef = model.ProjectGroupRef?.Name,
                 Variables = model.Variables.Select(YamlVariable.FromModel).OrderBy(v => v.Name).ToArray().NullIfEmpty(),
                 IncludedLibraryVariableSetRefs = model.IncludedLibraryVariableSetRefs.Select(r => r.Name).ToArray().NullIfEmpty(),
                 VersioningStrategy = YamlVersioningStrategy.FromModel(model.VersioningStrategy),

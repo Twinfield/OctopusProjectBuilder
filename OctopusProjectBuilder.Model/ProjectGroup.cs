@@ -12,6 +12,11 @@ namespace OctopusProjectBuilder.Model
             Description = description;
         }
 
+	    public ProjectGroup(string name, string description): this(new ElementIdentifier(name), description)
+	    {
+		    
+	    }
+
         public ElementIdentifier Identifier { get; private set; }
 
 	    public void Rename(string name)
