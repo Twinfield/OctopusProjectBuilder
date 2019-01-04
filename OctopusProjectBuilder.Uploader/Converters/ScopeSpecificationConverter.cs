@@ -22,7 +22,7 @@ namespace OctopusProjectBuilder.Uploader.Converters
 				.ToDictionary(kv => (VariableScopeType)kv.Key,
 					kv => kv.Value.AsParallel()
 							.Select(id => 
-								ResolveReference(kv.Key, id, repository, deploymentProcessResource, projectResource))
+								ResolveReference(kv.Key, id, repository, deploymentProcessResource))
 								.AsParallel().ToArray().AsEnumerable());
         }
 
@@ -55,7 +55,7 @@ namespace OctopusProjectBuilder.Uploader.Converters
             }
         }
 
-        private static ElementReference ResolveReference(ScopeField key, string id, IOctopusRepository repository, DeploymentProcessResource deploymentProcessResource, ProjectResource projectResource)
+        private static ElementReference ResolveReference(ScopeField key, string id, IOctopusRepository repository, DeploymentProcessResource deploymentProcessResource)
         {
 
 	        Logger.Trace($"Resolving reference {id}...");
