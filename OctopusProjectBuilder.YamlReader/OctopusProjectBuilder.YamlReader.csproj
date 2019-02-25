@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -95,7 +95,6 @@
     <Compile Include="Model\YamlVariableScope.cs" />
     <Compile Include="Model\YamlVersioningStrategy.cs" />
     <Compile Include="YamlSystemModelReader.cs" />
-    <Compile Include="YamlSystemModelRepository.cs" />
     <Compile Include="Helpers\EnumerableExtensions.cs" />
     <Compile Include="Model\YamlNamedElement.cs" />
     <Compile Include="Model\YamlProjectGroup.cs" />
