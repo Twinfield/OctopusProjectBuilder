@@ -10,16 +10,16 @@ namespace OctopusProjectBuilder.Uploader.Converters
         public static MachineHealthCheckPolicy ToModel(this Octopus.Client.Model.MachineHealthCheckPolicy resource)
         {
             return new MachineHealthCheckPolicy(
-                resource.HealthCheckInterval,
-                ToScriptPolicy(resource.TentacleEndpointHealthCheckPolicy),
-                ToScriptPolicy(resource.SshEndpointHealthCheckPolicy));
+                resource.HealthCheckInterval.Value,
+                ToScriptPolicy(resource.PowerShellHealthCheckPolicy),
+                ToScriptPolicy(resource.BashHealthCheckPolicy));
         }
 
         public static void UpdateWith(this Octopus.Client.Model.MachineHealthCheckPolicy resource, MachineHealthCheckPolicy model)
         {
             resource.HealthCheckInterval = model.HealthCheckInterval;
-            UpdateWithScriptPolicy(resource.TentacleEndpointHealthCheckPolicy, model.TentacleEndpointHealthCheckPolicy);
-            UpdateWithScriptPolicy(resource.SshEndpointHealthCheckPolicy, model.SshEndpointHealthCheckPolicy);
+            UpdateWithScriptPolicy(resource.PowerShellHealthCheckPolicy, model.TentacleEndpointHealthCheckPolicy);
+            UpdateWithScriptPolicy(resource.BashHealthCheckPolicy, model.SshEndpointHealthCheckPolicy);
         }
 
         private static void UpdateWithScriptPolicy(MachineScriptPolicy resource, MachineHealthCheckScriptPolicy model)
