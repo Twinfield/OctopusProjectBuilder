@@ -14,24 +14,28 @@ namespace OctopusProjectBuilder.YamlReader.Model
         [Description("Resource description.")]
         [YamlMember(Order = 3)]
         public string Description { get; set; }
-        [Description("List of Permissions.")]
+        [Description("List of System Permissions.")]
         [YamlMember(Order = 4)]
-        public Permission[] Permissions { get; set; }
+        public Permission[] SystemPermissions { get; set; }
+		  [Description("List of Space Permissions.")]
+		  [YamlMember(Order = 5)]
+		  public Permission[] SpacePermissions { get; set; }
 
-        public static YamlUserRole FromModel(UserRole model)
+		public static YamlUserRole FromModel(UserRole model)
         {
             return new YamlUserRole
             {
                 Name = model.Identifier.Name,
                 RenamedFrom = model.Identifier.RenamedFrom,
                 Description = model.Description,
-                Permissions = model.Permissions.ToArray().NullIfEmpty()
-            };
+					 SystemPermissions = model.SystemPermissions.ToArray().NullIfEmpty(),
+					 SpacePermissions = model.SpacePermissions.ToArray().NullIfEmpty()
+				};
         }
 
         public UserRole ToModel()
         {
-            return new UserRole(ToModelName(), Description, Permissions.EnsureNotNull());
+            return new UserRole(ToModelName(), Description, SystemPermissions.EnsureNotNull(), SpacePermissions.EnsureNotNull());
         }
     }
 }

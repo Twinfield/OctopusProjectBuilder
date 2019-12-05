@@ -14,9 +14,7 @@ namespace OctopusProjectBuilder.Uploader.Converters
             resource.ExternalSecurityGroups = new NamedReferenceItemCollection();
             foreach (var esg in model.ExternalSecurityGroups)
                 resource.ExternalSecurityGroups.Add(new NamedReferenceItem { Id = esg });
-            resource.UserRoleIds = new ReferenceCollection(model.UserRoles.Select(ur => repository.UserRoles.ResolveResourceId(ur)));
-            resource.ProjectIds = new ReferenceCollection(model.Projects.Select(p => repository.Projects.ResolveResourceId(p)));
-            resource.EnvironmentIds = new ReferenceCollection(model.Environments.Select(e => repository.Environments.ResolveResourceId(e)));
+				resource.Description = model.Description;
             return resource;
         }
 
@@ -24,11 +22,9 @@ namespace OctopusProjectBuilder.Uploader.Converters
         {
             return new Team(
                 new ElementIdentifier(resource.Name),
+					 resource.Description,
                 resource.MemberUserIds.Select(mui => new ElementReference(repository.Users.Get(mui).Username)),
-                resource.ExternalSecurityGroups.Select(esg => esg.Id),
-                resource.UserRoleIds.ToModel(repository.UserRoles),
-                resource.ProjectIds.ToModel(repository.Projects),
-                resource.EnvironmentIds.ToModel(repository.Environments));
+                resource.ExternalSecurityGroups.Select(esg => esg.Id));
         }
     }
 }
