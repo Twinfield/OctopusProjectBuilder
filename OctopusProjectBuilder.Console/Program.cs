@@ -4,7 +4,6 @@ using System.Net;
 using Common.Logging;
 using Common.Logging.Simple;
 using Fclp;
-using OctopusProjectBuilder.Uploader;
 using OctopusProjectBuilder.YamlReader;
 
 namespace OctopusProjectBuilder.Console
@@ -13,54 +12,8 @@ namespace OctopusProjectBuilder.Console
     {
         static int Main(string[] args)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
-
-            LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(LogLevel.All, false, false, true, "", true);
-            var logger = LogManager.GetLogger<Program>();
-
-            var options = ReadOptions(args);
-            if (options == null)
-                return 1;
-
-            try
-            {
-                if (options.Action == Options.Verb.Upload)
-                    UploadDefinitions(options);
-                else if (options.Action == Options.Verb.Download)
-                    DownloadDefinitions(options);
-                else if (options.Action == Options.Verb.CleanupConfig)
-                    CleanupConfig(options);
-            }
-            catch (Exception e)
-            {
-                logger.ErrorFormat("Application Error: {0}", e, e.Message);
-	            System.Console.ReadKey();
-                return 1;
-            }
             return 0;
 			
-        }
-
-        private static void CleanupConfig(Options options)
-        {
-            new YamlSystemModelRepository().CleanupConfig(options.DefinitionsDir);
-        }
-
-        private static void UploadDefinitions(Options options)
-        {
-            var model = new YamlSystemModelRepository().Load(options.DefinitionsDir);
-            new ModelUploader(options.OctopusUrl, options.OctopusApiKey).UploadModel(model);
-        }
-
-        private static void DownloadDefinitions(Options options)
-        {
-	       
-            var model = 
-				new Download(options.OctopusUrl, options.OctopusApiKey)
-					.OnlyGroups(new [] {options.ProjectGroup})
-					.Run(); 
-
-            new YamlSystemModelRepository().Save(model, options.DefinitionsDir);
         }
 
         public static Options ReadOptions(string[] args)
