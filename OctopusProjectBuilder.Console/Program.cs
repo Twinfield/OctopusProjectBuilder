@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
-using Common.Logging;
-using Common.Logging.Simple;
 using Fclp;
-using OctopusProjectBuilder.YamlReader;
 
 namespace OctopusProjectBuilder.Console
 {
-    class Program
+	class Program
     {
         static int Main(string[] args)
         {

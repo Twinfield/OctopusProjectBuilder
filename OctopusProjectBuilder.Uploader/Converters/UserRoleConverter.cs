@@ -10,17 +10,16 @@ namespace OctopusProjectBuilder.Uploader.Converters
         {
             resource.Name = model.Identifier.Name;
             resource.Description = model.Description;
-				resource.GrantedSpacePermissions = model.SpacePermissions.Select(p => (Octopus.Client.Model.Permission)p).ToList(); ;
-				resource.GrantedSystemPermissions = model.SystemPermissions.Select(p => (Octopus.Client.Model.Permission)p).ToList(); ;
+            resource.GrantedSpacePermissions = model.SpacePermissions.ToList();
+				resource.GrantedSystemPermissions = model.SystemPermissions.ToList();
 
             return resource;
         }
 
         public static UserRole ToModel(this UserRoleResource resource)
         {
-            var systemPermissions = resource.GrantedSystemPermissions.Select(PermissionConverter.ToModel);
-				var spacePermissions = resource.GrantedSpacePermissions.Select(PermissionConverter.ToModel);
-				return new UserRole(new ElementIdentifier(resource.Name), resource.Description, systemPermissions, spacePermissions);
+				return new UserRole(new ElementIdentifier(resource.Name), resource.Description,
+               resource.GrantedSystemPermissions, resource.GrantedSpacePermissions);
         }
     }
 }
