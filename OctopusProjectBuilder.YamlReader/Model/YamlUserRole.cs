@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using Octopus.Client.Model;
 using OctopusProjectBuilder.Model;
 using OctopusProjectBuilder.YamlReader.Helpers;
 using YamlDotNet.Serialization;

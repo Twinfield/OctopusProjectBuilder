@@ -31,13 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Octopus.Client, Version=14.3.1964.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octopus.Client.14.3.1964\lib\net462\Octopus.Client.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -90,9 +85,6 @@
     <Compile Include="Variable.cs" />
     <Compile Include="VariablePrompt.cs" />
     <Compile Include="VersioningStrategy.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
